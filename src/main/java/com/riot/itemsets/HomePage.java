@@ -9,14 +9,18 @@ import com.riot.itemsets.dao.ProPlayersDaoJdbc;
 import com.riot.itemsets.objects.Players;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
+
+import java.util.ArrayList;
+
 import org.apache.wicket.markup.html.WebPage;
 
 public class HomePage extends WebPage {
 	private static final long serialVersionUID = 1L;
 	
-	//Daos for players and game data
+	//Daos for players
 	private ProPlayersDaoJdbc proPlayersDao;
-	private ProGamesDaoJdbc proGamesDao;
 	
 	public HomePage(final PageParameters parameters) {
 		super(parameters);
@@ -25,16 +29,19 @@ public class HomePage extends WebPage {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		
 		proPlayersDao = (ProPlayersDaoJdbc) context.getBean("proPlayersDaoJdbc");
-		proGamesDao = (ProGamesDaoJdbc) context.getBean("proGamesDaoJdbc");
 		
-		Players bjerg = proPlayersDao.listPlayers().get(0);
-		add(new Label("playerName", bjerg.getProName()));
-		add(new Label("sumId", bjerg.getSummonerId()));
-		add(new Label("role", bjerg.getRole()));
-		add(new Label("teamName", bjerg.getTeamName()));
-		add(new Label("thumbnailPath", bjerg.getThumbnailPath()));
-		add(new Label("headerPath", bjerg.getHeaderPath()));
-		add(new Label("region", bjerg.getRegion()));
+		ArrayList<Players> allPlayers = (ArrayList<Players>) proPlayersDao.listPlayers();
+		ArrayList<String> regions = new ArrayList<String>();
+		for(Players player : allPlayers){
+			if(!regions.contains(player.getRegion())){
+				regions.add(player.getRegion());
+			}
+		}
+		int counter = 0;
+		for(String region : regions){
+			add(new RegionPanel("regionPanel"+counter, Model.of(region)));
+			counter++;
+		}
 
     }
 }

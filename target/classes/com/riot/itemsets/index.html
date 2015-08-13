@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:wicket="http://wicket.apache.org">
+<html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -35,9 +36,6 @@
         }
         a{
             font-size: 26px;
-        }
-        .container {
-        	padding-left:25px;
         }
     </style>
 
@@ -78,11 +76,11 @@
     </nav>
 
     <!-- Page Content -->
-    <div class="container" style="background: rgba(70,70,70,0.5); width:1000px;">
+    <div class="container" style="background: rgba(70,70,70,0.5);">
 
         <!-- Page Header -->
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <h1 class="page-header" style="font-size: 40px">Riot API Challenge 2.0
                     <small style="color: #EE2D24;">Item Sets</small>
                 </h1>
@@ -98,19 +96,7 @@
             <img class="col-lg-4" height="220px" src="images/RiotGamesLogo.png" style="margin-top:-90px;">
             
         </div>
-        <div class="row col-lg-12" style="padding-right: 0px;">
-        	<hr>
-        </div>
         <!-- /.row -->
-        <div class="row col-lg-12" style="padding-right: 0px;">
-        	<span wicket:id="regionPanel0"></span>
-        </div>
-        <div class="row col-lg-12" style="padding-right: 0px;">
-        	<span wicket:id="regionPanel1"></span>
-        </div>
-        <div class="row col-lg-12" style="padding-right: 0px;">
-        	<span wicket:id="regionPanel2"></span>
-        </div>
 
         <div class="row col-lg-12">
             <a id="region-toggler" href="#" class="inactive" data-toggle="collapse" data-target="#na" style="color: white;">
@@ -266,4 +252,5 @@
     <script src="js/bootstrap.min.js"></script>
 
 </body>
+
 </html>
