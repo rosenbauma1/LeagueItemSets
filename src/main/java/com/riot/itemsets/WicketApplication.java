@@ -1,5 +1,7 @@
 package com.riot.itemsets;
 
+import org.apache.wicket.markup.html.IPackageResourceGuard;
+import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -29,5 +31,12 @@ public class WicketApplication extends WebApplication
 		super.init();
 
 		// add your configuration here
+		IPackageResourceGuard packageResourceGuard = this.getResourceSettings().getPackageResourceGuard();
+		if (packageResourceGuard instanceof SecurePackageResourceGuard) {
+			SecurePackageResourceGuard guard = (SecurePackageResourceGuard) packageResourceGuard;
+			guard.addPattern("+*.png");
+		}
+		
 	}
+	
 }

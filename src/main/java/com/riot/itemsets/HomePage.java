@@ -12,12 +12,12 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.apache.wicket.markup.html.WebPage;
 
-public class HomePage extends WebPage {
-	private static final long serialVersionUID = 1L;
+public class HomePage extends WebPage{
 	
 	//Daos for players
 	private ProPlayersDaoJdbc proPlayersDao;

@@ -1,6 +1,10 @@
 package com.riot.itemsets.objects;
 
-public class Players {
+import java.io.Serializable;
+
+public class Players implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	
 	private Long summonerId;
 	private String proName;

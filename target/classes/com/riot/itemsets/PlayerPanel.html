@@ -11,10 +11,12 @@
 <body>
 
 <wicket:panel>
-	<img class="img-responsive" wicket:id="proImage" id="proImage">
-	<h3 style="text-align: center; margin-top:0px; background: rgba(0, 0, 0, .5);;">
-		<a href="#" style="padding-top: -5px; font-size:18px; color: white;"><label wicket:id="proName" id="proName"></label></a>
+	<img class="img-responsive" wicket:id="proImage" id="proImage" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">
+	<h3 style="text-align: center; margin-top:0px; background: rgba(0, 0, 0, .5);">
+	<label wicket:id="proName" id="proName" style="padding-top: -5px; font-size:18px; color: white; cursor: pointer; width:100%;" 
+			data-toggle="modal" data-target="#myModal"></label>
 	</h3>
+	<span wicket:id="modalPanel"></span>
 </wicket:panel>
 
 </body>

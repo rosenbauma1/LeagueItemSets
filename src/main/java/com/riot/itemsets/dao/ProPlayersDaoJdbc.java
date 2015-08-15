@@ -6,13 +6,13 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.riot.itemsets.objects.Players;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.riot.itemsets.objects.Players;
+
 public class ProPlayersDaoJdbc implements ProPlayersDao{
 	
-	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplateObject;
 
 	private class PlayersMapper implements RowMapper<Players> {
@@ -33,7 +33,6 @@ public class ProPlayersDaoJdbc implements ProPlayersDao{
 	
 	@Override
 	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
 

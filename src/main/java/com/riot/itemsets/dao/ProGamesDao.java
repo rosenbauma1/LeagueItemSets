@@ -23,5 +23,10 @@ public interface ProGamesDao {
 	    * a record of all games given summoner id
 	    */
 	   public List<Games> listGames(Long id);
+	   /** 
+	    * This is the method to be used to check 
+	    * if the match already exists
+	    */
+	   public boolean exists(Long matchId);
 
 }
