@@ -28,40 +28,41 @@
 					<div class="modal-body">
 						<p>Export an item set from <span wicket:id="proName2"></span> directly to your game
 							client!</p>
-						<div class="row col-md-12" wicket:id="gamesList"
-							style="background: rgba(0, 0, 0, .5); margin-top:15px; padding: 5px; margin-left: 0px; border: solid 2px rgba(100, 100, 100, .4);">
-							<div class="col-md-1" style="padding-left: 3px;">
-								<img width="37px" height="37px" wicket:id="champImage" style="border: inset 2px white;"> 
-								<Label style="color: red; font-size: 14px; padding-left: 10px; display: inline;">VS</Label> 
-								<img width="35px" height="35px" wicket:id="enemyChampImage">
-							</div>
-							<div class="col-md-9" style="text-align: center; vertical-align: middle;">
-								<div class="row">
-									<label style="font-size: 24px;" wicket:id="champName"></label> vs <label style="font-size: 24px;" wicket:id="enemyChampName"></Label>
-								</div>
-								<img width="50px" height="50px" wicket:id="item0"
-									style="border: solid 2px black; margin-right: -3px;"> 
-								<img width="50px" height="50px" wicket:id="item1"
-									style="border: solid 2px black; margin-right: -3px;"> 
-								<img width="50px" height="50px" wicket:id="item2"
-									style="border: solid 2px black; margin-right: -3px;"> 
-								<img width="50px" height="50px" wicket:id="item3"
-									style="border: solid 2px black; margin-right: -3px;"> 
-								<img width="50px" height="50px" wicket:id="item4"
-									style="border: solid 2px black; margin-right: -2px;"> 
-								<img width="50px" height="50px" wicket:id="item5"
-									style="border: solid 2px black; margin-right: -3px;">
-								<img width="50px" height="50px" wicket:id="item6"
-									style="border: solid 2px black; margin-right: -3px;">
-							</div>
-							<div class="col-md-2"
-								style="text-align: center; vertical-align: middle;">
-								<img src="images/gold.png" width="30px" height="30px">
-								<Label style="color: #f8f7be; font-size: 22px;" wicket:id="goldSpent"></Label>
-							</div>
-						</div>
 					</div>
-					<div class="modal-footer" style="background-color: rgba(0, 0, 0, .70);"></div>
+					<div class="modal-footer" style="background-color: rgba(0, 0, 0, .70); padding-top:30px; height:315px;">
+						<div class="row col-md-12" wicket:id="gamesList"
+								style="background: rgba(0, 0, 0, .5); padding: 5px; margin-left: 0px; border: solid 2px rgba(100, 100, 100, .4);">
+								<div class="col-md-1" style="padding-left: 3px;">
+									<img width="37px" height="37px" wicket:id="champImage" style="border: inset 2px white;"> 
+									<label style="color: red; font-size: 14px; padding-left: 10px; display: inline;" wicket:id="vsWon">VS</label> 
+									<img width="35px" height="35px" wicket:id="enemyChampImage">
+								</div>
+								<div class="col-md-9" style="text-align: center; vertical-align: middle;">
+									<div class="row">
+										<label style="font-size: 24px;" wicket:id="champName"></label> vs <label style="font-size: 24px;" wicket:id="enemyChampName"></Label>
+									</div>
+									<img width="50px" height="50px" wicket:id="item0"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item1"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item2"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item3"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item4"
+										style="border: solid 2px black; margin-right: -2px;"> 
+									<img width="50px" height="50px" wicket:id="item5"
+										style="border: solid 2px black; margin-right: -3px;">
+									<img width="50px" height="50px" wicket:id="item6"
+										style="border: solid 2px black; margin-right: -3px;">
+								</div>
+								<div class="col-md-2"
+									style="text-align: center; vertical-align: middle;">
+									<img src="images/gold.png" width="30px" height="30px">
+									<Label style="color: #f8f7be; font-size: 22px;" wicket:id="goldSpent"></Label>
+								</div>
+							</div>
+					</div>
 				</div>
 
 			</div>

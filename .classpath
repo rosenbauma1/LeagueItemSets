@@ -22,7 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar" sourcepath="M2_REPO/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -54,11 +53,22 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-beans-4.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-jdbc-4.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/mysql-connector-java-5.1.36.jar"/>
-	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-tx-3.1.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/riot-api-java.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-aop-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-aspects-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-beans-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-context-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-core-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-expression-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-jdbc-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-tx-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-web-4.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/wicket-ioc-7.0.0.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/wicket-spring-7.0.0.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-mock-2.0.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Levi/.m2/repository/javax/servlet/servlet-api/3.1.0/javax.servlet-api-3.1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,5 +1,6 @@
 package com.riot.itemsets.dao;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -8,11 +9,13 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.riot.itemsets.objects.Games;
 
-public class ProGamesDaoJdbc implements ProGamesDao{
+public class ProGamesDaoJdbc implements ProGamesDao, Serializable{
 
+	private static final long serialVersionUID = 1L;
 	
 	private JdbcTemplate jdbcTemplateObject;
 	

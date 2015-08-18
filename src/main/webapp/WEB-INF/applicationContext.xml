@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      					http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+      					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	default-autowire="byName">
+
+	<!-- Definition of data source -->
+	<bean id="league"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/league" />
+		<property name="username" value="root" />
+		<property name="password" value="password" />
+	</bean>
+
+	<!-- Definition for Dao JDBC bean -->
+	<bean id="proPlayersDaoJdbc" class="com.riot.itemsets.dao.ProPlayersDaoJdbc">
+		<property name="dataSource" ref="league" />
+	</bean>
+
+	<bean id="proGamesDaoJdbc" class="com.riot.itemsets.dao.ProGamesDaoJdbc">
+		<property name="dataSource" ref="league" />
+	</bean>
+</beans>
