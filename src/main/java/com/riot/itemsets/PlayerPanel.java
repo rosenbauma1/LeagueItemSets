@@ -11,11 +11,9 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.riot.itemsets.dao.ProGamesDaoJdbc;
-import com.riot.itemsets.dao.ProPlayersDaoJdbc;
+import com.riot.itemsets.dao.ProGamesDao;
+import com.riot.itemsets.dao.ProPlayersDao;
 import com.riot.itemsets.objects.Games;
 import com.riot.itemsets.objects.Players;
 
@@ -26,8 +24,8 @@ import dto.Match.ParticipantStats;
 import dto.MatchList.MatchList;
 import dto.MatchList.MatchReference;
 import dto.Static.Champion;
-import main.java.riotapi.RiotApi;
-import main.java.riotapi.RiotApiException;
+import riotapi.RiotApi;
+import riotapi.RiotApiException;
 
 public class PlayerPanel extends Panel{
 
@@ -36,11 +34,13 @@ public class PlayerPanel extends Panel{
 	private Players player;
 	private String region;
 	
-	@SpringBean
-	ProPlayersDaoJdbc proPlayersDao;
+	//private ProGamesDaoJdbc proGamesDao;
 	
 	@SpringBean
-	ProGamesDaoJdbc proGamesDao;
+	ProPlayersDao proPlayersDao;
+	
+	@SpringBean
+	ProGamesDao proGamesDao;
 
 	public PlayerPanel(String id, final IModel<?> model) {
 		super(id, model);
@@ -73,6 +73,7 @@ public class PlayerPanel extends Panel{
 					@Override
 					protected void onEvent(AjaxRequestTarget target) {
 						try {
+							System.out.println(player.getProName());
 							 updateGamesPlayed(player.getSummonerId());
 						
 						} catch (RiotApiException e) {
@@ -116,7 +117,7 @@ public class PlayerPanel extends Panel{
 			
 			//player's match info
 			
-			if(matches != null && !matches.getMatches().isEmpty()){
+			if(matches != null && matches.getMatches() != null && !matches.getMatches().isEmpty()){
 				MatchReference ref = matches.getMatches().get(i);
 				api.setRegion(Region.NA); //switch region to NA to get champ obj. in English
 				Champion champ = api.getDataChampion((int) ref.getChampion()); //api call count: 2
@@ -219,7 +220,7 @@ public class PlayerPanel extends Panel{
 			api.setRegion(Region.NA);
 			break;
 		case "EU":
-			api.setRegion(Region.EUNE);
+			api.setRegion(Region.EUW);
 			break;
 		case "KR":
 			api.setRegion(Region.KR);

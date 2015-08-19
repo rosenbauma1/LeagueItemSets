@@ -19,7 +19,7 @@ public class TeamPanel extends Panel{
 	private static final long serialVersionUID = 1L;
 	
 	@SpringBean
-	ProPlayersDaoJdbc proPlayersDao;
+	ProPlayersDao proPlayersDao;
 
 	public TeamPanel(String id, IModel model) {
 		super(id, model);

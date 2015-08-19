@@ -28,7 +28,7 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
-		System.setProperty("wicket.configuration", "development");
+		System.setProperty("wicket.configuration", "deployment");
 
 		Server server = new Server();
 

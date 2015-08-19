@@ -3,6 +3,8 @@ package com.riot.itemsets;
 import java.util.ArrayList;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.ajax.AjaxEventBehavior;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -12,31 +14,31 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.riot.itemsets.dao.ProGamesDaoJdbc;
 import com.riot.itemsets.dao.ProPlayersDaoJdbc;
 import com.riot.itemsets.objects.Games;
 import com.riot.itemsets.objects.Players;
-import com.riot.itemsets.StaticImage;
 
 public class ModalPanel extends Panel{
 
 	private static final long serialVersionUID = 1L;
 	
-	@SpringBean
-	ProPlayersDaoJdbc proPlayersDao;
-	
-	@SpringBean
-	ProGamesDaoJdbc proGamesDao;
+//	@SpringBean
+//	ProPlayersDao proPlayersDao;
+//	
+//	@SpringBean
+//	ProGamesDao proGamesDao;
 
 	public ModalPanel(String id, IModel<?> model) {
 		super(id, model);
 		
-		//ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
 		
-		//ProPlayersDaoJdbc proPlayersDao = (ProPlayersDaoJdbc) context.getBean("proPlayersDaoJdbc");
-		//ProGamesDaoJdbc proGamesDao = (ProGamesDaoJdbc) context.getBean("proGamesDaoJdbc");
+		ProPlayersDaoJdbc proPlayersDao = (ProPlayersDaoJdbc) context.getBean("proPlayersDaoJdbc");
+		ProGamesDaoJdbc proGamesDao = (ProGamesDaoJdbc) context.getBean("proGamesDaoJdbc");
 		
 		WebMarkupContainer container = new WebMarkupContainer("myModal");
 		container.add(new AttributeModifier("id", "modal"+model.getObject().toString()));
@@ -63,7 +65,7 @@ public class ModalPanel extends Panel{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void populateItem(ListItem<Games> item) {
+			protected void populateItem(final ListItem<Games> item) {
 				Games game = item.getModel().getObject();
 				item.add(new StaticImage("champImage", new Model<String>(game.getChampImage())));
 				item.add(new StaticImage("enemyChampImage", new Model<String>(game.getEnemyChampImage())));
