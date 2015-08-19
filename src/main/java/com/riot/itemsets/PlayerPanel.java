@@ -6,10 +6,14 @@ import java.util.List;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.riot.itemsets.dao.ProGamesDao;
@@ -45,66 +49,51 @@ public class PlayerPanel extends Panel{
 	public PlayerPanel(String id, final IModel<?> model) {
 		super(id, model);
 		
-		Label proName = (new Label("proName", model));
-		proName.add(new AttributeModifier("data-target", "#modal" + model.getObject().toString()));
-		add(proName);
-		
-		//initializing daos for player
-//		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Module.xml");
-//		
-//		ProPlayersDaoJdbc proPlayersDao = (ProPlayersDaoJdbc) context.getBean("proPlayersDaoJdbc");
-//		proGamesDao = (ProGamesDaoJdbc) context.getBean("proGamesDaoJdbc");
-		
 		ArrayList<Players> allPlayers = (ArrayList<Players>) proPlayersDao.listPlayers();
-		
+		ArrayList<Players> playersOnTeam = new ArrayList<Players>();
 		for(Players p : allPlayers){
-			if(p.getProName().equals(model.getObject().toString())){
-				
-				region = p.getRegion();
-				player = p;
-				
-				Image proImage = new Image("proImage", p.getThumbnailPath());
-				proImage.add(new AttributeModifier("src", p.getThumbnailPath()));
-				proImage.add(new AttributeModifier("data-target", "#modal" + model.getObject().toString()));
-				proImage.add(new AjaxEventBehavior("click") {
+			if(p.getTeamName().equals(model.getObject().toString())){
+				playersOnTeam.add(p);
+			}
+		}
+		
+		ListView<Players> playerList = new ListView<Players>("playerList", playersOnTeam) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(final ListItem<Players> item) {
+				Label proName = (new Label("proName", item.getModelObject().getProName()));
+				proName.add(new AttributeModifier("data-target", "#modal" + item.getModelObject().getProName()));
+				item.add(proName);
+				item.add(new AttributeAppender("class", "col-lg-2"));
+				Image proImage = new Image("proImage", item.getModelObject().getThumbnailPath());
+				proImage.add(new AttributeModifier("src", item.getModelObject().getThumbnailPath()));
+				proImage.add(new AttributeModifier("data-target", "#modal" + item.getModelObject().getProName()));
+				item.add(proImage);
+				final ModalPanel modalPanel = new ModalPanel("modalPanel", Model.of(item.getModelObject().getProName()));
+				item.add(modalPanel);
+				item.add(new AjaxEventBehavior("click"){
 
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					protected void onEvent(AjaxRequestTarget target) {
 						try {
-							System.out.println(player.getProName());
-							 updateGamesPlayed(player.getSummonerId());
-						
+							region = item.getModelObject().getRegion();
+							updateGamesPlayed(item.getModelObject().getSummonerId());
 						} catch (RiotApiException e) {
+							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
+					
 				});
-				
-				
-				add(proImage);
 			}
-		}
+		};
+		add(playerList);
 		
-		proName.add(new AjaxEventBehavior("click") {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void onEvent(AjaxRequestTarget target) {
-				try {
-					 updateGamesPlayed(player.getSummonerId());
-				
-				} catch (RiotApiException e) {
-					e.printStackTrace();
-				}
-			}
-		});
 		
-		add(new ModalPanel("modalPanel", model));
-		
-
 	}
 	
 	public void updateGamesPlayed(Long summonerId) throws RiotApiException{
@@ -113,11 +102,15 @@ public class PlayerPanel extends Panel{
 		//set the region of api to player's region
 		api = changeRegion(api);
 		MatchList matches = api.getMatchList(summonerId);  //api call count: 1
-		for(int i = 0; i < 5; i++){
-			
+		
+		for(int i = 0; i < 1; i++){
 			//player's match info
-			
 			if(matches != null && matches.getMatches() != null && !matches.getMatches().isEmpty()){
+				//if the current game already exists in the db
+				//no game needs to be updated. otherwise, we pull the prev. 5 and try to write them to the db.
+				if(proGamesDao.exists(matches.getMatches().get(i).getMatchId())){
+					return;
+				}
 				MatchReference ref = matches.getMatches().get(i);
 				api.setRegion(Region.NA); //switch region to NA to get champ obj. in English
 				Champion champ = api.getDataChampion((int) ref.getChampion()); //api call count: 2

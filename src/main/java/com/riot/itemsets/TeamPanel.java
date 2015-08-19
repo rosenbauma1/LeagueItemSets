@@ -39,18 +39,10 @@ public class TeamPanel extends Panel{
 			}
 			if(!teams.contains(player.getTeamName()) && player.getTeamName().equals(model.getObject().toString())){
 				teams.add(player.getTeamName());
-				System.out.println(player.getTeamName());
 			}
 		}
-		int counter = 0;
-		for(Players player : allPlayers){
-			for(String team : teams){
-				if(player.getTeamName().equals(team)){
-					System.out.println("Added panel ID: playerPanel" + counter + " player " + player.getProName());
-					add(new PlayerPanel("playerPanel"+counter, Model.of(player.getProName())));
-					counter++;
-				}
-			}
+		for(String team : teams){
+			add(new PlayerPanel("playerPanel", Model.of(team)));		
 		}
 	}
 
