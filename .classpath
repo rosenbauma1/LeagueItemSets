@@ -54,8 +54,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/gson-2.3.1.jar"/>
-	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/javax.servlet-api-3.1.0.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/mysql-connector-java-5.1.36.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/riot-api-java.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-aop-4.2.0.RELEASE.jar"/>
@@ -70,5 +68,6 @@
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/spring-web-4.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/wicket-ioc-7.0.0.jar"/>
 	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/wicket-spring-7.0.0.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/LeagueItemSets/itemsets/lib/gson-2.3.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

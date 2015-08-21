@@ -7,8 +7,20 @@
 
     <!-- Custom CSS -->
     <link href="css/3-col-portfolio.css" rel="stylesheet">
+    <style>
+		#exportButton{
+			background:rgba(0,0,0,0);
+			border:0px;
+		}
+		#exportButton:onhover{
+			background:rgba(100,100,100,.95);
+			color:white;
+			border:0px;
+		}
+	</style>
 </head>
 <body>
+
 	<wicket:panel>
 		<!-- Modal -->
 		<div class="modal fade" wicket:id="myModal" id="myModal" role="dialog">
@@ -39,7 +51,7 @@
 								</div>
 								<div class="col-md-9" style="text-align: center; vertical-align: middle;">
 									<div class="row">
-										<label style="font-size: 24px;" wicket:id="champName"></label> vs <label style="font-size: 24px;" wicket:id="enemyChampName"></Label>
+										<label style="font-size: 24px;" wicket:id="champName"></label> <label wicket:id="vsChamp"></label>  <label style="font-size: 24px;" wicket:id="enemyChampName"></Label>
 									</div>
 									<img width="50px" height="50px" wicket:id="item0"
 										style="border: solid 2px black; margin-right: -3px;"> 
@@ -58,9 +70,12 @@
 								</div>
 								<div class="col-md-2"
 									style="text-align: center; vertical-align: middle;">
-									<img src="images/gold.png" width="30px" height="30px">
+									<img src="images/gold.png" width="30px" height="30px" wicket:id="goldSpentIcon">
 									<Label style="color: #f8f7be; font-size: 22px;" wicket:id="goldSpent"></Label>
 								</div>
+								<form wicket:id="exportForm"class="col-md-2">
+									<button class="button" id="exportButton" value="Export" wicket:id="exportButton" style="background:none; border:0px;">Export</button>
+								</form>
 							</div>
 					</div>
 				</div>

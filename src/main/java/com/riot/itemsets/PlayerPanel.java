@@ -117,6 +117,9 @@ public class PlayerPanel extends Panel{
 				//switch the region back
 				api = changeRegion(api);
 				MatchDetail match = api.getMatch(ref.getMatchId()); //api call count: 3
+				if(match == null) {
+					return;
+				}
 				List<Participant> participants = match.getParticipants(); 
 				Participant player = null;
 				Participant enemyPlayer = null;
