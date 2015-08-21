@@ -30,12 +30,16 @@ import org.apache.wicket.util.resource.IResourceStream;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.google.gson.JsonObject;
 import com.riot.itemsets.dao.ProGamesDao;
 import com.riot.itemsets.dao.ProGamesDaoJdbc;
 import com.riot.itemsets.dao.ProPlayersDao;
 import com.riot.itemsets.dao.ProPlayersDaoJdbc;
 import com.riot.itemsets.objects.Games;
 import com.riot.itemsets.objects.Players;
+
+import constant.Region;
+import main.java.riotapi.RiotApiException;
 
 public class ModalPanel extends Panel{
 
@@ -46,6 +50,8 @@ public class ModalPanel extends Panel{
 	
 	@SpringBean
 	ProGamesDao proGamesDao;
+	
+	private Region region;
 
 	public ModalPanel(String id, final IModel<?> model) {
 		super(id, model);
@@ -62,6 +68,17 @@ public class ModalPanel extends Panel{
 			if(p.getProName().equals(model.getObject().toString())){
 				player = p;
 				container.add(new Image("proImage", p.getThumbnailPath()).add(new AttributeModifier("src", p.getThumbnailPath())));
+				switch(player.getRegion()){
+				case "NA":
+					region = Region.NA;
+					break;
+				case "EU":
+					region = Region.EUW;
+					break;
+				case "KR":
+					region = Region.KR;
+					break;
+				}
 			}
 		}
 		ArrayList<Games> games = (ArrayList<Games>) proGamesDao.listGames(player.getSummonerId());
@@ -128,6 +145,16 @@ public class ModalPanel extends Panel{
 											+ "_vs_" 
 											+ game.getEnemyChampName().replace(" ", "").replace("'", "") + ".json";
 						
+						
+						JsonObject jObject = null;
+							
+						try {
+							jObject = CreateJson.readWriteJson(region, titleOfFile, game.getGameId(), game.getSummonerId());
+						} catch (riotapi.RiotApiException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
 						target.appendJavaScript("var saveData = (function () {\n"
 												+   "var a = document.createElement('a');\n"
 												+ 	"document.body.appendChild(a);\n"
@@ -141,7 +168,7 @@ public class ModalPanel extends Panel{
 												+        "window.URL.revokeObjectURL(url);\n"
 												+    "};\n"
 												+"}());\n"
-												+"var data = " + "{ x: 42, s: 'hello, world', d: new Date() },\n" //caleb's jsonObj.toString() here
+												+"var data = " + jObject + ",\n" //caleb's jsonObj.toString() here
 												+	"fileName = '" + titleOfFile + "';\n"
 												+"saveData(data, fileName);");
 					}
