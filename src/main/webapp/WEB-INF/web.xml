@@ -19,6 +19,11 @@
 			<param-value>com.riot.itemsets.WicketApplication</param-value>
 		</init-param>
 	</filter>
+	
+	<context-param>
+		<param-name>configuration</param-name>
+		<param-value>deployment</param-value>
+	</context-param>
 
 	<filter-mapping>
 		<filter-name>wicket.itemsets</filter-name>

@@ -173,7 +173,8 @@ public class ModalPanel extends Panel{
 										+"}());\n"
 										+"var data = " + jObject + ",\n" //caleb's jsonObj.toString() here
 										+	"fileName = '" + titleOfFile + "';\n"
-										+"saveData(data,fileName);");
+										+"saveData(data,fileName);\n"
+										+"document.getElementById('downloadInfoModal').style.display = \"block\";");
 						
 					}
 					
