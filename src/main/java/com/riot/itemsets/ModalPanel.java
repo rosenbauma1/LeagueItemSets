@@ -98,7 +98,7 @@ public class ModalPanel extends Panel{
 				Label vsWon, champName, enemyChampName, goldSpent, vsChamp;
 				Form<?> form = new Form<>("exportForm");
 				final SpecialButton exportButton = new SpecialButton("exportButton", item);
-				exportButton.add(new AttributeAppender("onclick", "alert('" + game.getGameId() +"ExportButton');"));
+				//exportButton.add(new AttributeAppender("onclick", "alert('" + game.getGameId() +"ExportButton');"));
 				item.add(champImage = new StaticImage("champImage", new Model<String>(game.getChampImage())));
 				item.add(enemyChampImage = new StaticImage("enemyChampImage", new Model<String>(game.getEnemyChampImage())));
 				item.add(vsChamp = new Label("vsChamp", Model.of("vs")));
@@ -141,39 +141,39 @@ public class ModalPanel extends Panel{
 
 					@Override
 					protected void onEvent(AjaxRequestTarget target) {
-//						System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
-//						+ " summoner id: " + game.getSummonerId() 
-//						+ " enemy name: " + game.getEnemyChampName());
-//				String titleOfFile = model.getObject().toString() + "_" + game.getChampName().replace(" ", "").replace("'", "") 
-//									+ "_vs_" 
-//									+ game.getEnemyChampName().replace(" ", "").replace("'", "") + ".json";
-//				
-//				
-//				JsonObject jObject = null;
+						System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
+						+ " summoner id: " + game.getSummonerId() 
+						+ " enemy name: " + game.getEnemyChampName());
+				String titleOfFile = model.getObject().toString() + "_" + game.getChampName().replace(" ", "").replace("'", "") 
+									+ "_vs_" 
+									+ game.getEnemyChampName().replace(" ", "").replace("'", "") + ".json";
+				
+				
+				JsonObject jObject = null;
 					
-//				try {
-//					jObject = CreateJson.readWriteJson(region, titleOfFile, game.getGameId(), game.getSummonerId());
-//				} catch (riotapi.RiotApiException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			
-//				target.appendJavaScript("var saveData = (function () {\n"
-//										+   "var a = document.createElement('a');\n"
-//										+ 	"document.body.appendChild(a);\n"
-//										+   "return function (data, fileName) { \n"
-//										+        "var json = JSON.stringify(data),\n"
-//										+            "blob = new Blob([json], {type: 'octet/stream'}),\n"
-//										+            "url = window.URL.createObjectURL(blob);\n"
-//										+        "a.href = url;\n"
-//										+        "a.download = fileName;\n"
-//										+        "a.click();\n"
-//										+        "window.URL.revokeObjectURL(url);\n"
-//										+    "};\n"
-//										+"}());\n"
-//										+"var data = " + jObject + ",\n" //caleb's jsonObj.toString() here
-//										+	"fileName = '" + titleOfFile + "';\n"
-//										+"var exportBtn = document.getElementById(\"" + game.getGameId() + "ExportButton" + "\").addEventListener('click', saveData(data,fileName));");
+				try {
+					jObject = CreateJson.readWriteJson(region, titleOfFile, game.getGameId(), game.getSummonerId());
+				} catch (riotapi.RiotApiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+				target.appendJavaScript("var saveData = (function () {\n"
+										+   "var a = document.createElement('a');\n"
+										+ 	"document.body.appendChild(a);\n"
+										+   "return function (data, fileName) { \n"
+										+        "var json = JSON.stringify(data),\n"
+										+            "blob = new Blob([json], {type: 'octet/stream'}),\n"
+										+            "url = window.URL.createObjectURL(blob);\n"
+										+        "a.href = url;\n"
+										+        "a.download = fileName;\n"
+										+        "a.click();\n"
+										+        "window.URL.revokeObjectURL(url);\n"
+										+    "};\n"
+										+"}());\n"
+										+"var data = " + jObject + ",\n" //caleb's jsonObj.toString() here
+										+	"fileName = '" + titleOfFile + "';\n"
+										+"saveData(data,fileName);");
 						
 					}
 					
@@ -197,10 +197,10 @@ public class ModalPanel extends Panel{
 	    @Override
 	    protected void onSubmit(final AjaxRequestTarget target, final Form<?> form) {
 	        // here you cand do everything you want with the item and the model object of the item.(row)
-	        Games game = item.getModelObject();
-	        System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
-			+ " summoner id: " + game.getSummonerId() 
-			+ " enemy name: " + game.getEnemyChampName());
+//	        Games game = item.getModelObject();
+//	        System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
+//			+ " summoner id: " + game.getSummonerId() 
+//			+ " enemy name: " + game.getEnemyChampName());
 	    }
 
 	}
