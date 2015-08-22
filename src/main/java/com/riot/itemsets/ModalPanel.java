@@ -96,7 +96,9 @@ public class ModalPanel extends Panel{
 				final Games game = item.getModel().getObject();
 				StaticImage champImage, enemyChampImage, item0, item1, item2, item3, item4, item5, item6, goldSpentIcon;
 				Label vsWon, champName, enemyChampName, goldSpent, vsChamp;
-				final Button exportButton = new Button("exportButton");
+				Form<?> form = new Form<>("exportForm");
+				final SpecialButton exportButton = new SpecialButton("exportButton", item);
+				exportButton.add(new AttributeAppender("onclick", "alert('" + game.getGameId() +"ExportButton');"));
 				item.add(champImage = new StaticImage("champImage", new Model<String>(game.getChampImage())));
 				item.add(enemyChampImage = new StaticImage("enemyChampImage", new Model<String>(game.getEnemyChampImage())));
 				item.add(vsChamp = new Label("vsChamp", Model.of("vs")));
@@ -112,7 +114,8 @@ public class ModalPanel extends Panel{
 				item.add(item5 = new StaticImage("item5", new Model<String>(game.getItem5())));
 				item.add(item6 = new StaticImage("item6", new Model<String>(game.getItem6())));
 				item.add(goldSpentIcon = new StaticImage("goldSpentIcon", new Model<String>("images/gold.png")));
-				item.add(exportButton);
+				form.add(exportButton);
+				item.add(form);
 				if(game.getGameId() == 0l){
 					AttributeAppender hiddenMod = new AttributeAppender("style", "display:none;");
 					champImage.add(hiddenMod);
@@ -132,51 +135,73 @@ public class ModalPanel extends Panel{
 					goldSpentIcon.add(hiddenMod);
 					exportButton.add(hiddenMod);
 				}
-				item.add(new AjaxEventBehavior("click") {
+				item.add(new AjaxEventBehavior("click"){
 
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					protected void onEvent(AjaxRequestTarget target) {
-						System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
-								+ " summoner id: " + game.getSummonerId() 
-								+ " enemy name: " + game.getEnemyChampName());
-						String titleOfFile = model.getObject().toString() + "_" + game.getChampName().replace(" ", "").replace("'", "") 
-											+ "_vs_" 
-											+ game.getEnemyChampName().replace(" ", "").replace("'", "") + ".json";
-						
-						
-						JsonObject jObject = null;
-							
-						try {
-							jObject = CreateJson.readWriteJson(region, titleOfFile, game.getGameId(), game.getSummonerId());
-						} catch (riotapi.RiotApiException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+//						System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
+//						+ " summoner id: " + game.getSummonerId() 
+//						+ " enemy name: " + game.getEnemyChampName());
+//				String titleOfFile = model.getObject().toString() + "_" + game.getChampName().replace(" ", "").replace("'", "") 
+//									+ "_vs_" 
+//									+ game.getEnemyChampName().replace(" ", "").replace("'", "") + ".json";
+//				
+//				
+//				JsonObject jObject = null;
 					
-						target.appendJavaScript("var saveData = (function () {\n"
-												+   "var a = document.createElement('a');\n"
-												+ 	"document.body.appendChild(a);\n"
-												+   "return function (data, fileName) { \n"
-												+        "var json = JSON.stringify(data),\n"
-												+            "blob = new Blob([json], {type: 'octet/stream'}),\n"
-												+            "url = window.URL.createObjectURL(blob);\n"
-												+        "a.href = url;\n"
-												+        "a.download = fileName;\n"
-												+        "a.click();\n"
-												+        "window.URL.revokeObjectURL(url);\n"
-												+    "};\n"
-												+"}());\n"
-												+"var data = " + jObject + ",\n" //caleb's jsonObj.toString() here
-												+	"fileName = '" + titleOfFile + "';\n"
-												+"saveData(data, fileName);");
+//				try {
+//					jObject = CreateJson.readWriteJson(region, titleOfFile, game.getGameId(), game.getSummonerId());
+//				} catch (riotapi.RiotApiException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			
+//				target.appendJavaScript("var saveData = (function () {\n"
+//										+   "var a = document.createElement('a');\n"
+//										+ 	"document.body.appendChild(a);\n"
+//										+   "return function (data, fileName) { \n"
+//										+        "var json = JSON.stringify(data),\n"
+//										+            "blob = new Blob([json], {type: 'octet/stream'}),\n"
+//										+            "url = window.URL.createObjectURL(blob);\n"
+//										+        "a.href = url;\n"
+//										+        "a.download = fileName;\n"
+//										+        "a.click();\n"
+//										+        "window.URL.revokeObjectURL(url);\n"
+//										+    "};\n"
+//										+"}());\n"
+//										+"var data = " + jObject + ",\n" //caleb's jsonObj.toString() here
+//										+	"fileName = '" + titleOfFile + "';\n"
+//										+"var exportBtn = document.getElementById(\"" + game.getGameId() + "ExportButton" + "\").addEventListener('click', saveData(data,fileName));");
+						
 					}
+					
 				});
 			}
 		};
 		container.add(gamesList);
 		add(container);
+
+	}
+	
+	private class SpecialButton extends AjaxButton {
+	    final ListItem<Games> item;
+
+	    public SpecialButton(final String id, final ListItem<Games> item) {
+	        super(id);
+
+	        this.item = item;
+	    }
+
+	    @Override
+	    protected void onSubmit(final AjaxRequestTarget target, final Form<?> form) {
+	        // here you cand do everything you want with the item and the model object of the item.(row)
+	        Games game = item.getModelObject();
+	        System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
+			+ " summoner id: " + game.getSummonerId() 
+			+ " enemy name: " + game.getEnemyChampName());
+	    }
 
 	}
 
