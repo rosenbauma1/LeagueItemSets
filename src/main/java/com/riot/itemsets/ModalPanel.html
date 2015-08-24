@@ -7,6 +7,7 @@
 
     <!-- Custom CSS -->
     <link href="css/3-col-portfolio.css" rel="stylesheet">
+    
     <style>
 		#exportButton{
 			background:rgba(0,0,0,0);
@@ -40,7 +41,7 @@
 						<p>Export an item set from <span wicket:id="proName2"></span> directly to your game
 							client!</p>
 					</div>
-					<div class="modal-footer" style="background-color: rgba(0, 0, 0, .70); padding-top:30px; height:315px; overflow-y:scroll; width:597px;">
+					<div class="modal-footer" style="background-color: rgba(0, 0, 0, .70); padding-top:30px; height:315px; width:597px; overflow-y:scroll;">
 						<div class="row col-md-12" wicket:id="gamesList"
 								style="background: rgba(0, 0, 0, .5); padding: 5px; margin-left: 0px; border: solid 2px rgba(100, 100, 100, .4);">
 								<div class="col-md-1" style="padding-left: 3px;">
@@ -72,10 +73,11 @@
 									<img src="images/gold.png" width="30px" height="30px" wicket:id="goldSpentIcon">
 									<Label style="color: #f8f7be; font-size: 22px;" wicket:id="goldSpent"></Label>
 								</div>
-								<form wicket:id="exportForm" class="col-md-2">
+								<div class="col-md-2">
 									<button class="button" id="exportButton" value="Export" wicket:id="exportButton" style="background:none; border:0px;">Export</button>
-								</form>
+								</div>
 							</div>
+							<div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical col-sm-1" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 151px; max-height: 570px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div>
 					</div>
 				</div>
 

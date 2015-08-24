@@ -1,45 +1,29 @@
 package com.riot.itemsets;
 
-import java.awt.event.ItemEvent;
-import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.resource.FileResourceStream;
-import org.apache.wicket.util.resource.IResourceStream;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.gson.JsonObject;
 import com.riot.itemsets.dao.ProGamesDao;
-import com.riot.itemsets.dao.ProGamesDaoJdbc;
 import com.riot.itemsets.dao.ProPlayersDao;
-import com.riot.itemsets.dao.ProPlayersDaoJdbc;
 import com.riot.itemsets.objects.Games;
 import com.riot.itemsets.objects.Players;
 
 import constant.Region;
-import main.java.riotapi.RiotApiException;
 
 public class ModalPanel extends Panel{
 
@@ -96,8 +80,7 @@ public class ModalPanel extends Panel{
 				final Games game = item.getModel().getObject();
 				StaticImage champImage, enemyChampImage, item0, item1, item2, item3, item4, item5, item6, goldSpentIcon;
 				Label vsWon, champName, enemyChampName, goldSpent, vsChamp;
-				Form<?> form = new Form<>("exportForm");
-				final SpecialButton exportButton = new SpecialButton("exportButton", item);
+				final Button exportButton = new Button("exportButton");
 				//exportButton.add(new AttributeAppender("onclick", "alert('" + game.getGameId() +"ExportButton');"));
 				item.add(champImage = new StaticImage("champImage", new Model<String>(game.getChampImage())));
 				item.add(enemyChampImage = new StaticImage("enemyChampImage", new Model<String>(game.getEnemyChampImage())));
@@ -114,8 +97,7 @@ public class ModalPanel extends Panel{
 				item.add(item5 = new StaticImage("item5", new Model<String>(game.getItem5())));
 				item.add(item6 = new StaticImage("item6", new Model<String>(game.getItem6())));
 				item.add(goldSpentIcon = new StaticImage("goldSpentIcon", new Model<String>("images/gold.png")));
-				form.add(exportButton);
-				item.add(form);
+				item.add(exportButton);
 				if(game.getGameId() == 0l){
 					AttributeAppender hiddenMod = new AttributeAppender("style", "display:none;");
 					champImage.add(hiddenMod);
@@ -183,26 +165,6 @@ public class ModalPanel extends Panel{
 		};
 		container.add(gamesList);
 		add(container);
-
-	}
-	
-	private class SpecialButton extends AjaxButton {
-	    final ListItem<Games> item;
-
-	    public SpecialButton(final String id, final ListItem<Games> item) {
-	        super(id);
-
-	        this.item = item;
-	    }
-
-	    @Override
-	    protected void onSubmit(final AjaxRequestTarget target, final Form<?> form) {
-	        // here you cand do everything you want with the item and the model object of the item.(row)
-//	        Games game = item.getModelObject();
-//	        System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
-//			+ " summoner id: " + game.getSummonerId() 
-//			+ " enemy name: " + game.getEnemyChampName());
-	    }
 
 	}
 
