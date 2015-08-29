@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -24,6 +27,9 @@ import com.riot.itemsets.objects.Games;
 import com.riot.itemsets.objects.Players;
 
 import constant.Region;
+import dto.Static.Item;
+import riotapi.RiotApi;
+import riotapi.RiotApiException;
 
 public class ModalPanel extends Panel{
 
@@ -78,10 +84,12 @@ public class ModalPanel extends Panel{
 			@Override
 			protected void populateItem(final ListItem<Games> item) {
 				final Games game = item.getModel().getObject();
-				StaticImage champImage, enemyChampImage, item0, item1, item2, item3, item4, item5, item6, goldSpentIcon;
+				StaticImage champImage, enemyChampImage;
+				final StaticImage item0, item1, item2, item3, item4, item5, item6, goldSpentIcon;
 				Label vsWon, champName, enemyChampName, goldSpent, vsChamp;
-				final Button exportButton = new Button("exportButton");
-				//exportButton.add(new AttributeAppender("onclick", "alert('" + game.getGameId() +"ExportButton');"));
+				Button exportButton = new Button("exportButton");
+				item.add(exportButton);
+				//exportButton.add(newOnClickBehavior(game));
 				item.add(champImage = new StaticImage("champImage", new Model<String>(game.getChampImage())));
 				item.add(enemyChampImage = new StaticImage("enemyChampImage", new Model<String>(game.getEnemyChampImage())));
 				item.add(vsChamp = new Label("vsChamp", Model.of("vs")));
@@ -90,14 +98,20 @@ public class ModalPanel extends Panel{
 				item.add(enemyChampName = new Label("enemyChampName", game.getEnemyChampName()));
 				item.add(goldSpent = new Label("goldSpent", game.getGoldSpent()));
 				item.add(item0 = new StaticImage("item0", new Model<String>(game.getItem0())));
+				item0.setOutputMarkupId(true);
 				item.add(item1 = new StaticImage("item1", new Model<String>(game.getItem1())));
+				item1.setOutputMarkupId(true);
 				item.add(item2 = new StaticImage("item2", new Model<String>(game.getItem2())));
+				item2.setOutputMarkupId(true);
 				item.add(item3 = new StaticImage("item3", new Model<String>(game.getItem3())));
+				item3.setOutputMarkupId(true);
 				item.add(item4 = new StaticImage("item4", new Model<String>(game.getItem4())));
+				item4.setOutputMarkupId(true);
 				item.add(item5 = new StaticImage("item5", new Model<String>(game.getItem5())));
+				item5.setOutputMarkupId(true);
 				item.add(item6 = new StaticImage("item6", new Model<String>(game.getItem6())));
+				item6.setOutputMarkupId(true);
 				item.add(goldSpentIcon = new StaticImage("goldSpentIcon", new Model<String>("images/gold.png")));
-				item.add(exportButton);
 				if(game.getGameId() == 0l){
 					AttributeAppender hiddenMod = new AttributeAppender("style", "display:none;");
 					champImage.add(hiddenMod);
@@ -117,15 +131,22 @@ public class ModalPanel extends Panel{
 					goldSpentIcon.add(hiddenMod);
 					exportButton.add(hiddenMod);
 				}
+
+				item0.add(newOnHoverBehavior(game, item0));
+				item1.add(newOnHoverBehavior(game, item1));
+				item2.add(newOnHoverBehavior(game, item2));
+				item3.add(newOnHoverBehavior(game, item3));
+				item4.add(newOnHoverBehavior(game, item4));
+				item5.add(newOnHoverBehavior(game, item5));
+				item6.add(newOnHoverBehavior(game, item6));
+
 				item.add(new AjaxEventBehavior("click"){
 
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					protected void onEvent(AjaxRequestTarget target) {
-						System.out.println("Calling Caleb's itemset generation with match id: " + game.getGameId()
-						+ " summoner id: " + game.getSummonerId() 
-						+ " enemy name: " + game.getEnemyChampName());
+
 				String titleOfFile = model.getObject().toString() + "_" + game.getChampName().replace(" ", "").replace("'", "") 
 									+ "_vs_" 
 									+ game.getEnemyChampName().replace(" ", "").replace("'", "") + ".json";
@@ -139,7 +160,6 @@ public class ModalPanel extends Panel{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			
 				target.appendJavaScript("var saveData = (function () {\n"
 										+   "var a = document.createElement('a');\n"
 										+ 	"document.body.appendChild(a);\n"
@@ -165,8 +185,20 @@ public class ModalPanel extends Panel{
 		};
 		container.add(gamesList);
 		add(container);
-
 	}
+
+	
+	protected AjaxEventBehavior newOnHoverBehavior(final Games game, final StaticImage image) {
+        return new AjaxEventBehavior("mouseover") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void onEvent(AjaxRequestTarget target) {
+            	image.add(new AttributeModifier("title", buildItemTooltip(game.getItem0())));
+				target.add(image);
+            }
+        };
+    }
 
 	public static Games createEmptyGame() {
 		Games game = new Games();
@@ -190,5 +222,26 @@ public class ModalPanel extends Panel{
 		game.setItem6("images/noitem.png");
 		return game;
 	}
+	
+	public static String buildItemTooltip(String itemImageUrl){
+		
+		RiotApi api = new RiotApi("470300d9-77fb-481f-b085-332443586fb8");
+		api.setRegion(Region.NA);
+		StringBuilder itemTooltip = new StringBuilder();
+		if(!itemImageUrl.contains("noitem")){
+			int itemId = Integer.valueOf(itemImageUrl.substring(itemImageUrl.length() - 8, itemImageUrl.length() - 4));
+			try {
+				Item item = api.getDataItem(itemId);
+				itemTooltip.append(item.getDescription());
+			} catch (RiotApiException e) {
+				e.printStackTrace();
+			}
+		} else {
+			itemTooltip.append("No Item");
+		}
+		
+		return itemTooltip.toString();
+	}
 
 }
+
