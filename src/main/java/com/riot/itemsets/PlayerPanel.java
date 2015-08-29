@@ -139,6 +139,7 @@ public class PlayerPanel extends Panel{
 				
 				api.setRegion(Region.NA); //switch region to NA to get champ obj. in English
 				Champion enemyChamp = api.getDataChampion(enemyPlayer.getChampionId()); //api call count: 4
+				System.out.println(enemyChamp.getName());
 				//switch the region back
 				api = changeRegion(api);
 				ParticipantStats playerStats = player.getStats();
@@ -149,16 +150,40 @@ public class PlayerPanel extends Panel{
 				//set player's champion image, id, and name
 				game.setChampId((int)ref.getChampion());
 				game.setChampName(champ.getName());
-				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + 
-								(champ.getName().replace("'", "").replace(" ", "").equals("LeBlanc") ? champ.getName().replace("'", "").replace(" ", "").replace("B","b") 
-																									 : champ.getName().replace("'", "").replace(" ", ""))  + ".png");
+				
+				//weird ddragon case issue w/ champ names
+				String champName = "";
+				switch(champ.getName().replace("'", "").replace(" ", "")){
+					case "LeBlanc":
+						champName = "Leblanc";
+						break;
+					case "Fiddlesticks":
+						champName = "FiddleSticks";
+						break;
+					default:
+						champName = champ.getName().replace("'", "").replace(" ", "");
+						break;
+				}
+				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + champName + ".png");
 				
 				//set enemy player's champion image, id, and name
 				game.setEnemyChampId(enemyChamp.getId());
 				game.setEnemyChampName(enemyChamp.getName());
-				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" +
-								(enemyChamp.getName().replace("'", "").replace(" ", "").equals("LeBlanc") ? enemyChamp.getName().replace("'", "").replace(" ", "").replace("B","b") 
-										 															 	  : enemyChamp.getName().replace("'", "").replace(" ", "")) + ".png");
+				
+				//weird ddragon case issue w/ champ names
+				String enemyChampName = "";
+				switch(enemyChamp.getName().replace("'", "").replace(" ", "")){
+					case "LeBlanc":
+						enemyChampName = "Leblanc";
+						break;
+					case "Fiddlesticks":
+						enemyChampName = "FiddleSticks";
+						break;
+					default:
+						enemyChampName = enemyChamp.getName().replace("'", "").replace(" ", "");
+						break;
+				}
+				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + enemyChampName + ".png");
 				
 				game.setGameId(ref.getMatchId());
 				game.setGoldSpent(playerStats.getGoldSpent());
