@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -132,14 +129,6 @@ public class ModalPanel extends Panel{
 					exportButton.add(hiddenMod);
 				}
 
-				item0.add(newOnHoverBehavior(game, item0));
-				item1.add(newOnHoverBehavior(game, item1));
-				item2.add(newOnHoverBehavior(game, item2));
-				item3.add(newOnHoverBehavior(game, item3));
-				item4.add(newOnHoverBehavior(game, item4));
-				item5.add(newOnHoverBehavior(game, item5));
-				item6.add(newOnHoverBehavior(game, item6));
-
 				item.add(new AjaxEventBehavior("click"){
 
 					private static final long serialVersionUID = 1L;
@@ -170,7 +159,10 @@ public class ModalPanel extends Panel{
 										+        "a.href = url;\n"
 										+        "a.download = fileName;\n"
 										+        "a.click();\n"
-										+        "window.URL.revokeObjectURL(url);\n"
+									    +		 "setTimeout(function(){\n"
+									    +    	 "document.body.removeChild(a);\n"
+									    +    	 "window.URL.revokeObjectURL(url);\n"  
+									    +        "}, 100);\n" 
 										+    "};\n"
 										+"}());\n"
 										+"var data = " + jObject + ",\n" //caleb's jsonObj.toString() here
@@ -186,19 +178,6 @@ public class ModalPanel extends Panel{
 		container.add(gamesList);
 		add(container);
 	}
-
-	
-	protected AjaxEventBehavior newOnHoverBehavior(final Games game, final StaticImage image) {
-        return new AjaxEventBehavior("mouseover") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected void onEvent(AjaxRequestTarget target) {
-            	image.add(new AttributeModifier("title", buildItemTooltip(game.getItem0())));
-				target.add(image);
-            }
-        };
-    }
 
 	public static Games createEmptyGame() {
 		Games game = new Games();
