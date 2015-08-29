@@ -164,7 +164,7 @@ public class PlayerPanel extends Panel{
 						champName = champ.getName().replace("'", "").replace(" ", "");
 						break;
 				}
-				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + champName + ".png");
+				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/champion/" + champName + ".png");
 				
 				//set enemy player's champion image, id, and name
 				game.setEnemyChampId(enemyChamp.getId());
@@ -183,44 +183,44 @@ public class PlayerPanel extends Panel{
 						enemyChampName = enemyChamp.getName().replace("'", "").replace(" ", "");
 						break;
 				}
-				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + enemyChampName + ".png");
+				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/champion/" + enemyChampName + ".png");
 				
 				game.setGameId(ref.getMatchId());
 				game.setGoldSpent(playerStats.getGoldSpent());
 				
 				//set player's item images
 				if(playerStats.getItem0() != 0l){
-					game.setItem0("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem0() +".png");
+					game.setItem0("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem0() +".png");
 				} else {
 					game.setItem0("images/noitem.png");
 				}
 				if(playerStats.getItem1() != 0l){
-					game.setItem1("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem1() +".png");
+					game.setItem1("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem1() +".png");
 				} else {
 					game.setItem1("images/noitem.png");
 				}
 				if(playerStats.getItem2() != 0l){
-					game.setItem2("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem2() +".png");
+					game.setItem2("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem2() +".png");
 				} else {
 					game.setItem2("images/noitem.png");
 				}
 				if(playerStats.getItem3() != 0l){
-					game.setItem3("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem3() +".png");
+					game.setItem3("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem3() +".png");
 				} else {
 					game.setItem3("images/noitem.png");
 				}
 				if(playerStats.getItem4() != 0l){
-					game.setItem4("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem4() +".png");
+					game.setItem4("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem4() +".png");
 				} else {
 					game.setItem4("images/noitem.png");
 				}
 				if(playerStats.getItem5() != 0l){
-					game.setItem5("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem5() +".png");
+					game.setItem5("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem5() +".png");
 				} else {
 					game.setItem5("images/noitem.png");
 				}
 				if(playerStats.getItem6() != 0l){
-					game.setItem6("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem6() +".png");
+					game.setItem6("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem6() +".png");
 				} else {
 					game.setItem6("images/noitem.png");
 				}
