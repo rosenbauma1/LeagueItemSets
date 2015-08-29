@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.riot.itemsets.objects.BlockForItems;
 
 public class GsonFileBuilder {
-	
-	public static JsonObject gsonToJsonBuilder(String title, ArrayList<Integer> startingItems, ArrayList<Integer> coreItems, ArrayList<Integer> endGame) {
-	
+
+	public static JsonObject gsonToJsonBuilder(ArrayList<BlockForItems> items, String title) {
+
 		JsonObject builder = new JsonObject();
 		builder.addProperty("title", title);
 		builder.addProperty("type", "custom");
@@ -16,47 +17,42 @@ public class GsonFileBuilder {
 		builder.addProperty("mode", "any");
 		builder.addProperty("priority", "false");
 		builder.addProperty("sortrank", 0);
-		
-		JsonArray blocks = new JsonArray();
-		JsonObject starterItems = itemsBlockBuilder("Starting Items", startingItems);
-		JsonObject corItems = itemsBlockBuilder("Core Items", coreItems);
-		JsonObject endGameItems = itemsBlockBuilder("Final Items", endGame);
-		
-		if(starterItems != null){
-			blocks.add(starterItems);
-		}
-		if(corItems != null){
-			blocks.add(corItems);
-		}
-		if(endGameItems != null){
-			blocks.add(endGameItems);
-		}
+
+		JsonArray blocks = itemsBlockBuilder(items);
+
 		builder.add("blocks", blocks);
 		return builder;
 	}
-	
-	private static JsonObject itemsBlockBuilder(String type, ArrayList<Integer> itemLists){
-		
-		JsonObject itemsObjectBuilder = new JsonObject();
-		itemsObjectBuilder.addProperty("type", type);
-		itemsObjectBuilder.addProperty("recMath", "false");
-		itemsObjectBuilder.addProperty("minSummonerLevel", -1);
-		itemsObjectBuilder.addProperty("maxSummonerLevel", -1);
-		itemsObjectBuilder.addProperty("showIfSummonerSpell", "");
-		itemsObjectBuilder.addProperty("hideIfSummonerSpell", "");
-		
-		System.out.println("type: " + type + " " + itemLists.size());
-		JsonArray itemsArrayBuilder = new JsonArray();
-		for(int i = 0; i < itemLists.size(); i++){
-			JsonObject itemListObject = new JsonObject();
-			itemListObject.addProperty("id", itemLists.get(i).toString());
-			itemListObject.addProperty("count", 1);
-			itemsArrayBuilder.add(itemListObject);
-			itemsObjectBuilder.add("items", itemsArrayBuilder);
+
+	private static JsonArray itemsBlockBuilder(ArrayList<BlockForItems> frames) {
+
+		JsonArray framesArray = new JsonArray();
+		for (int i = 0; i < frames.size(); i++) {
+			JsonObject oneFrame = new JsonObject();
+			JsonArray frameArrayBuilder = new JsonArray();
+			oneFrame.addProperty("type", "Back " + i + " (" + frames.get(i).getTimestamp() + "):");
+			oneFrame.addProperty("recMath", "false");
+			oneFrame.addProperty("minSummonerLevel", -1);
+			oneFrame.addProperty("maxSummonerLevel", -1);
+			oneFrame.addProperty("showIfSummonerSpell", "");
+			oneFrame.addProperty("hideIfSummonerSpell", "");
+
+			for (int j = 0; j < frames.get(i).getItems().size(); j++) {
+				JsonObject itemObject = new JsonObject();
+				System.out.println(frames.get(i).getItems().get(j));
+				String itemId = frames.get(i).getItems().get(j).toString();
+				itemObject.addProperty("id", itemId);
+				itemObject.addProperty("count", 1);
+				frameArrayBuilder.add(itemObject);
+				System.out.println("item object" + itemObject.toString());
+				System.out.println("frame array" + frameArrayBuilder.toString());
+			}
+			oneFrame.add("items", frameArrayBuilder);
+			System.out.println("One Frame " + oneFrame.toString());
+			framesArray.add(oneFrame);
 		}
 		
-		return itemsObjectBuilder;
+		return framesArray;
 		
 	}
-
 }

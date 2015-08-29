@@ -145,7 +145,7 @@ public class ModalPanel extends Panel{
 					
 				try {
 					jObject = CreateJson.readWriteJson(region, titleOfFile, game.getGameId(), game.getSummonerId());
-				} catch (riotapi.RiotApiException e) {
+				} catch (RiotApiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
