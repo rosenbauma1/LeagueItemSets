@@ -103,7 +103,7 @@ public class PlayerPanel extends Panel{
 		api = changeRegion(api);
 		MatchList matches = api.getMatchList(summonerId);  //api call count: 1
 		
-		for(int i = 0; i < 1; i++){
+		for(int i = 0; i < 5; i++){
 			//player's match info
 			if(matches != null && matches.getMatches() != null && !matches.getMatches().isEmpty()){
 				//if the current game already exists in the db
@@ -117,6 +117,9 @@ public class PlayerPanel extends Panel{
 				//switch the region back
 				api = changeRegion(api);
 				MatchDetail match = api.getMatch(ref.getMatchId()); //api call count: 3
+				if(match == null) {
+					return;
+				}
 				List<Participant> participants = match.getParticipants(); 
 				Participant player = null;
 				Participant enemyPlayer = null;
@@ -146,12 +149,16 @@ public class PlayerPanel extends Panel{
 				//set player's champion image, id, and name
 				game.setChampId((int)ref.getChampion());
 				game.setChampName(champ.getName());
-				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + champ.getName().replace("'", "").replace(" ", "") + ".png");
+				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + 
+								(champ.getName().replace("'", "").replace(" ", "").equals("LeBlanc") ? champ.getName().replace("'", "").replace(" ", "").replace("B","b") 
+																									 : champ.getName().replace("'", "").replace(" ", ""))  + ".png");
 				
 				//set enemy player's champion image, id, and name
 				game.setEnemyChampId(enemyChamp.getId());
 				game.setEnemyChampName(enemyChamp.getName());
-				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + enemyChamp.getName().replace("'", "").replace(" ", "") + ".png");
+				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" +
+								(enemyChamp.getName().replace("'", "").replace(" ", "").equals("LeBlanc") ? enemyChamp.getName().replace("'", "").replace(" ", "").replace("B","b") 
+										 															 	  : enemyChamp.getName().replace("'", "").replace(" ", "")) + ".png");
 				
 				game.setGameId(ref.getMatchId());
 				game.setGoldSpent(playerStats.getGoldSpent());
