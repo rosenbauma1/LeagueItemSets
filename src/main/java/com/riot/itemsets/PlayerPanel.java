@@ -3,6 +3,8 @@ package com.riot.itemsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.kerberos.KerberosKey;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -34,8 +36,7 @@ import riotapi.RiotApiException;
 public class PlayerPanel extends Panel{
 
 	private static final long serialVersionUID = 1L;
-	
-	private Players player;
+
 	private String region;
 	
 	//private ProGamesDaoJdbc proGamesDao;
@@ -56,8 +57,26 @@ public class PlayerPanel extends Panel{
 				playersOnTeam.add(p);
 			}
 		}
+		//sort players
+		ArrayList<Players> sortedPlayers = new ArrayList<Players>();
+		for(int i = 0; i < playersOnTeam.size(); i++){
+			for(int j = 0; j < playersOnTeam.size(); j++){
+				if(sortedPlayers.size() == 0 && playersOnTeam.get(j).getRole().equals("Top")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 1 && playersOnTeam.get(j).getRole().equals("Jungle")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 2 && playersOnTeam.get(j).getRole().equals("Mid")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 3 && playersOnTeam.get(j).getRole().equals("AD")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 4 && playersOnTeam.get(j).getRole().equals("Support")){
+					sortedPlayers.add(playersOnTeam.get(j));
+					break;
+				}
+			}
+		}
 		
-		ListView<Players> playerList = new ListView<Players>("playerList", playersOnTeam) {
+		ListView<Players> playerList = new ListView<Players>("playerList", sortedPlayers) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -139,7 +158,6 @@ public class PlayerPanel extends Panel{
 				
 				api.setRegion(Region.NA); //switch region to NA to get champ obj. in English
 				Champion enemyChamp = api.getDataChampion(enemyPlayer.getChampionId()); //api call count: 4
-				System.out.println(enemyChamp.getName());
 				//switch the region back
 				api = changeRegion(api);
 				ParticipantStats playerStats = player.getStats();

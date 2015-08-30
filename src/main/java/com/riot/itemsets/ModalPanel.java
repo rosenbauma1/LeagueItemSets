@@ -2,19 +2,12 @@ package com.riot.itemsets;
 
 import java.util.ArrayList;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.event.Broadcast;
-import org.apache.wicket.event.IEventSink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -26,7 +19,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.google.gson.JsonObject;
@@ -51,7 +43,7 @@ public class ModalPanel extends Panel{
 	ProGamesDao proGamesDao;
 	
 	private Region region;
-	private TextField searchField;
+	private TextField<String> searchField;
 
 	public ModalPanel(String id, final IModel<?> model) {
 		super(id, model);
@@ -196,7 +188,7 @@ public class ModalPanel extends Panel{
 		container.setOutputMarkupId(true);
 		gamesList.setOutputMarkupId(true);
 		
-		Form searchForm = new Form<Void>("searchForm");
+		Form<Void> searchForm = new Form<Void>("searchForm");
 		searchForm.add(searchField = new TextField<String>("searchField", Model.of("")));
 		searchForm.add(new AjaxButton("searchButton", searchForm){
 			private static final long serialVersionUID = 1L;
@@ -217,7 +209,8 @@ public class ModalPanel extends Panel{
 			
 		});
 		searchField.add(new OnChangeAjaxBehavior() {
-			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected void onUpdate(AjaxRequestTarget target) {
 				for(Games game : games){
