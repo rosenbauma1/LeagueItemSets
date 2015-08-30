@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Item Sets</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/3-col-portfolio.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <style>
+        .active i.glyphicon-chevron-down { display:inline-block; }
+        .active i.glyphicon-chevron-up { display:none;}
+
+        .inactive i.glyphicon-chevron-up{ display:inline-block; }
+        .inactive i.glyphicon-chevron-down { display:none;}
+        body{
+            color: white;
+            background: url("images/bg.png");
+        }
+        a{
+            font-size: 26px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">League Item Sets</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container" style="background: rgba(70,70,70,0.5);">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-lg-7">
+                <h1 class="page-header" style="font-size: 40px">Riot API Challenge 2.0
+                    <small style="color: #EE2D24;">Item Sets</small>
+                </h1>
+            </div>
+            
+        </div>
+        <div class="row">
+            <p class="col-lg-8">
+                This is Austin Rosenbaum & Caleb Blake's submission for Riot's API Challenge 2.0 (8/10/2015 - 8/31/2015).<br/>
+                League Item Sets gives the user the ability to use item sets from their favorite League of Legends Pro!<br/>
+                Simply select the player, browse preferred champion matchups given their recent matches, and export the item set directly to your game!
+            </p>
+            <img class="col-lg-4" height="220px" src="images/RiotGamesLogo.png" style="margin-top:-90px;">
+            
+        </div>
+        <!-- /.row -->
+
+        <div class="row col-lg-12">
+            <a id="region-toggler" href="#" class="inactive" data-toggle="collapse" data-target="#na" style="color: white;">
+                Region: NA
+                <i class="glyphicon glyphicon-chevron-up" style="color: #EE2D24; font-size:20px"></i>
+                <i class="glyphicon glyphicon-chevron-down" style="color: #EE2D24; font-size:20px"></i>
+            </a>
+        </div>
+        <div class="row collapse col-lg-12" id="na">
+            <a id="tsm-toggler" class="inactive" href="#" data-toggle="collapse" data-target="#tsm">
+                <img src="http://lol.esportspedia.com/w/images/c/cb/Tsmlogo_std.png">Team SoloMid
+                <i class="glyphicon glyphicon-chevron-up" style="color: #EE2D24; font-size:20px"></i><i class="glyphicon glyphicon-chevron-down" style="color: #EE2D24; font-size:20px"></i></a>
+            <div class="row collapse" id="tsm">
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/9/92/TSM-Dyrus-2015Summer.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Dyrus</a>
+                    </h3>
+                    <p>Marcus "Dyrus" Hill is a professional League of Legends player who is currently the top laner for Team SoloMid.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/0/09/TSM-Santorin-2015Summer.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Santorin</a>
+                    </h3>
+                    <p>Lucas "Santorin" Tao Kilmer Larsen is the jungler for Team SoloMid.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/e/e1/TSM-Bjergsen-2015Summer.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Bjergsen</a>
+                    </h3>
+                    <p>Soren "Bjergsen" Bjerg is the mid laner and tactical caller for Team SoloMid.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/3/3e/TSM-WildTurtle-2015Summer.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">WildTurtle</a>
+                    </h3>
+                    <p>Jason "WildTurtle" Tran is the AD carry for Team SoloMid.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/1/1d/TSM-Lustboy-2015Summer.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Lustboy</a>
+                    </h3>
+                    <p>Ham "Lustboy" Jang-sik is a Korean support player who currently starts for Team SoloMid.</p>
+                </div>
+            </div>
+            <!-- /.row -->
+            <br/>
+            <a id="clg-toggler" class="inactive" href="#" data-toggle="collapse" data-target="#clg">
+                <img src="http://lol.esportspedia.com/w/images/1/15/Clglogo_std.png">Counter Logic Gaming
+                <i class="glyphicon glyphicon-chevron-up" style="color: #EE2D24; font-size:20px"></i>
+                <i class="glyphicon glyphicon-chevron-down" style="color: #EE2D24; font-size:20px"></i>
+            </a>
+            <div class="row collapse" id="clg">
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/b/b7/Clg-zion-2015.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">ZionSpartan</a>
+                    </h3>
+                    <p>Darshan "ZionSpartan" Upadhyaya is the top laner for Counter Logic Gaming.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/4/42/Clg-xmithie-2015spring.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Xmithie</a>
+                    </h3>
+                    <p>Jake "Xmithie" Puchero is the jungler for Counter Logic Gaming.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/7/7b/Clg-pobelter-2015Summer.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Pobelter</a>
+                    </h3>
+                    <p>Eugene "Pobelter" Park is an American League of Legends player who is one of two starting mid laners for Counter Logic Gaming.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/1/13/Clg-doublelift-2015spring.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Doublelift</a>
+                    </h3>
+                    <p>Yiliang "Doublelift" Peng is the AD carry for Counter Logic Gaming.</p>
+                </div>
+                <div class="col-md-2 portfolio-item">
+                    <a href="#">
+                        <img class="img-responsive" src="http://lol.esportspedia.com/w/images/7/7a/Clg-aphromoo-2015spring.jpg" alt="">
+                    </a>
+                    <h3>
+                        <a href="#">Aphromoo</a>
+                    </h3>
+                    <p>Zaqueri "Aphromoo" Black is currently the support player for Counter Logic Gaming.</p>
+                </div>
+            </div>
+            <!-- /.row -->
+            <hr>
+        </div>
+        
+        
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script>
+        $("#region-toggler").click(function(){
+            $(this).toggleClass('active inactive');
+        })
+        $("#tsm-toggler").click(function(){
+            $(this).toggleClass('active inactive');
+        })
+        $("#clg-toggler").click(function(){
+            $(this).toggleClass('active inactive');
+        })
+    </script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

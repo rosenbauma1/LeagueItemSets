@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+ 	<!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/3-col-portfolio.css" rel="stylesheet">
+    
+    <style>
+		#exportButton{
+			background:rgba(0,0,0,0);
+			border:0px;
+		}
+		#exportButton:onhover{
+			background:rgba(100,100,100,.95);
+			color:white;
+			border:0px;
+		}
+	</style>
+</head>
+<body>
+
+	<wicket:panel>
+		<!-- Modal -->
+		<div class="modal fade" wicket:id="myModal" id="myModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content"
+					style="background: rgba(100, 100, 100, .95);">
+					<div class="modal-header"
+						style="background-color: rgba(0, 0, 0, .70);">
+						<button type="button" class="close" data-dismiss="modal"
+							style="color: red; margin-top: -15px;">&times;</button>
+						<img wicket:id="proImage" class="img-responsive col-md-3">
+						<h4 class="modal-title col-md-3" style="line-height: .9;"><span wicket:id="proName"></span></h4>
+
+					</div>
+					<div class="modal-body">
+						<p>Export an item set from <span wicket:id="proName2"></span> directly to your game
+							client!</p>
+					</div>
+					<div class="modal-footer" style="background-color: rgba(0, 0, 0, .70); padding-top:30px; height:315px; width:597px; overflow-y:scroll;">
+						<div class="row col-md-12" wicket:id="gamesList"
+								style="background: rgba(0, 0, 0, .5); padding: 5px; margin-left: 0px; border: solid 2px rgba(100, 100, 100, .4);">
+								<div class="col-md-1" style="padding-left: 3px;">
+									<img width="37px" height="37px" wicket:id="champImage" style="border: inset 2px white;"> 
+									<label style="color: red; font-size: 14px; padding-left: 10px; display: inline;" wicket:id="vsWon">VS</label> 
+									<img width="35px" height="35px" wicket:id="enemyChampImage">
+								</div>
+								<div class="col-md-9" style="text-align: center; vertical-align: middle;">
+									<div class="row">
+										<label style="font-size: 24px;" wicket:id="champName"></label> <label wicket:id="vsChamp"></label>  <label style="font-size: 24px;" wicket:id="enemyChampName"></Label>
+									</div>
+									<img width="50px" height="50px" wicket:id="item0"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item1"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item2"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item3"
+										style="border: solid 2px black; margin-right: -3px;"> 
+									<img width="50px" height="50px" wicket:id="item4"
+										style="border: solid 2px black; margin-right: -2px;"> 
+									<img width="50px" height="50px" wicket:id="item5"
+										style="border: solid 2px black; margin-right: -3px;">
+									<img width="50px" height="50px" wicket:id="item6"
+										style="border: solid 2px black; margin-right: -3px;">
+								</div>
+								<div class="col-md-2"
+									style="text-align: center; vertical-align: middle;">
+									<img src="images/gold.png" width="30px" height="30px" wicket:id="goldSpentIcon">
+									<Label style="color: #f8f7be; font-size: 22px;" wicket:id="goldSpent"></Label>
+								</div>
+								<div class="col-md-2">
+									<button class="button" id="exportButton" value="Export" wicket:id="exportButton" style="background:none; border:0px;">Export</button>
+								</div>
+							</div>
+							<div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical col-sm-1" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 151px; max-height: 570px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-dialog" id="downloadInfoModal" style="position:absolute; left:0px; bottom:0px; margin-bottom:0px; display:none;">
+				<div class="modal-content" style="background: rgba(100, 100, 100, .95); text-align:left; height:40px; width:575px;">
+					<img class="col-md-2" src="images/arrow_down.png" width="40px" height="30px" style="margin-top:5px; margin-right:-25px;'"></img>
+					<p class="col-md-10">Move this file into directory:<br><strong>C:/Riot Games/League of Legends/Config/Global/Recommended/</strong></p>
+				</div>
+			</div>
+		</div>
+	</wicket:panel>
+</body>
+</html>

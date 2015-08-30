@@ -3,6 +3,8 @@ package com.riot.itemsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.security.auth.kerberos.KerberosKey;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -34,8 +36,7 @@ import riotapi.RiotApiException;
 public class PlayerPanel extends Panel{
 
 	private static final long serialVersionUID = 1L;
-	
-	private Players player;
+
 	private String region;
 	
 	//private ProGamesDaoJdbc proGamesDao;
@@ -56,8 +57,26 @@ public class PlayerPanel extends Panel{
 				playersOnTeam.add(p);
 			}
 		}
+		//sort players
+		ArrayList<Players> sortedPlayers = new ArrayList<Players>();
+		for(int i = 0; i < playersOnTeam.size(); i++){
+			for(int j = 0; j < playersOnTeam.size(); j++){
+				if(sortedPlayers.size() == 0 && playersOnTeam.get(j).getRole().equals("Top")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 1 && playersOnTeam.get(j).getRole().equals("Jungle")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 2 && playersOnTeam.get(j).getRole().equals("Mid")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 3 && playersOnTeam.get(j).getRole().equals("AD")){
+					sortedPlayers.add(playersOnTeam.get(j));
+				} else if(sortedPlayers.size() == 4 && playersOnTeam.get(j).getRole().equals("Support")){
+					sortedPlayers.add(playersOnTeam.get(j));
+					break;
+				}
+			}
+		}
 		
-		ListView<Players> playerList = new ListView<Players>("playerList", playersOnTeam) {
+		ListView<Players> playerList = new ListView<Players>("playerList", sortedPlayers) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -103,7 +122,7 @@ public class PlayerPanel extends Panel{
 		api = changeRegion(api);
 		MatchList matches = api.getMatchList(summonerId);  //api call count: 1
 		
-		for(int i = 0; i < 1; i++){
+		for(int i = 0; i < 5; i++){
 			//player's match info
 			if(matches != null && matches.getMatches() != null && !matches.getMatches().isEmpty()){
 				//if the current game already exists in the db
@@ -117,6 +136,9 @@ public class PlayerPanel extends Panel{
 				//switch the region back
 				api = changeRegion(api);
 				MatchDetail match = api.getMatch(ref.getMatchId()); //api call count: 3
+				if(match == null) {
+					return;
+				}
 				List<Participant> participants = match.getParticipants(); 
 				Participant player = null;
 				Participant enemyPlayer = null;
@@ -146,49 +168,77 @@ public class PlayerPanel extends Panel{
 				//set player's champion image, id, and name
 				game.setChampId((int)ref.getChampion());
 				game.setChampName(champ.getName());
-				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + champ.getName().replace("'", "").replace(" ", "") + ".png");
+				
+				//weird ddragon case issue w/ champ names
+				String champName = "";
+				switch(champ.getName().replace("'", "").replace(" ", "")){
+					case "LeBlanc":
+						champName = "Leblanc";
+						break;
+					case "Fiddlesticks":
+						champName = "FiddleSticks";
+						break;
+					default:
+						champName = champ.getName().replace("'", "").replace(" ", "");
+						break;
+				}
+				game.setChampImage("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/champion/" + champName + ".png");
 				
 				//set enemy player's champion image, id, and name
 				game.setEnemyChampId(enemyChamp.getId());
 				game.setEnemyChampName(enemyChamp.getName());
-				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/" + enemyChamp.getName().replace("'", "").replace(" ", "") + ".png");
+				
+				//weird ddragon case issue w/ champ names
+				String enemyChampName = "";
+				switch(enemyChamp.getName().replace("'", "").replace(" ", "")){
+					case "LeBlanc":
+						enemyChampName = "Leblanc";
+						break;
+					case "Fiddlesticks":
+						enemyChampName = "FiddleSticks";
+						break;
+					default:
+						enemyChampName = enemyChamp.getName().replace("'", "").replace(" ", "");
+						break;
+				}
+				game.setEnemyChampImage("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/champion/" + enemyChampName + ".png");
 				
 				game.setGameId(ref.getMatchId());
 				game.setGoldSpent(playerStats.getGoldSpent());
 				
 				//set player's item images
 				if(playerStats.getItem0() != 0l){
-					game.setItem0("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem0() +".png");
+					game.setItem0("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem0() +".png");
 				} else {
 					game.setItem0("images/noitem.png");
 				}
 				if(playerStats.getItem1() != 0l){
-					game.setItem1("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem1() +".png");
+					game.setItem1("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem1() +".png");
 				} else {
 					game.setItem1("images/noitem.png");
 				}
 				if(playerStats.getItem2() != 0l){
-					game.setItem2("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem2() +".png");
+					game.setItem2("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem2() +".png");
 				} else {
 					game.setItem2("images/noitem.png");
 				}
 				if(playerStats.getItem3() != 0l){
-					game.setItem3("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem3() +".png");
+					game.setItem3("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem3() +".png");
 				} else {
 					game.setItem3("images/noitem.png");
 				}
 				if(playerStats.getItem4() != 0l){
-					game.setItem4("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem4() +".png");
+					game.setItem4("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem4() +".png");
 				} else {
 					game.setItem4("images/noitem.png");
 				}
 				if(playerStats.getItem5() != 0l){
-					game.setItem5("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem5() +".png");
+					game.setItem5("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem5() +".png");
 				} else {
 					game.setItem5("images/noitem.png");
 				}
 				if(playerStats.getItem6() != 0l){
-					game.setItem6("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/item/" + playerStats.getItem6() +".png");
+					game.setItem6("http://ddragon.leagueoflegends.com/cdn/" + api.getDataVersions().get(0) + "/img/item/" + playerStats.getItem6() +".png");
 				} else {
 					game.setItem6("images/noitem.png");
 				}
