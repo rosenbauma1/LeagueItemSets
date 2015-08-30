@@ -24,6 +24,7 @@ public class Games implements Serializable{
 	private String enemyChampImage;
 	private String enemyChampName;
 	private Long summonerId;
+	private boolean hidden;
 	
 	public Games() {
 
@@ -155,6 +156,14 @@ public class Games implements Serializable{
 
 	public void setItem6(String item6) {
 		this.item6 = item6;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 	
 }

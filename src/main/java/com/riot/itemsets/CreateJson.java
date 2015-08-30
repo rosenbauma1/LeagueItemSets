@@ -11,7 +11,6 @@ import dto.Match.Event;
 import dto.Match.Frame;
 import dto.Match.MatchDetail;
 import dto.Match.ParticipantIdentity;
-import dto.Static.Item;
 import riotapi.RiotApi;
 import riotapi.RiotApiException;
 
