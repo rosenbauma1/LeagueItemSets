@@ -2,19 +2,31 @@ package com.riot.itemsets;
 
 import java.util.ArrayList;
 
+import javax.swing.plaf.synth.SynthSpinnerUI;
+
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.event.Broadcast;
+import org.apache.wicket.event.IEventSink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import com.google.gson.JsonObject;
@@ -39,11 +51,12 @@ public class ModalPanel extends Panel{
 	ProGamesDao proGamesDao;
 	
 	private Region region;
+	private TextField searchField;
 
 	public ModalPanel(String id, final IModel<?> model) {
 		super(id, model);
 		
-		WebMarkupContainer container = new WebMarkupContainer("myModal");
+		final WebMarkupContainer container = new WebMarkupContainer("myModal");
 		container.add(new AttributeModifier("id", "modal"+model.getObject().toString()));
 		container.add(new Label("proName", model));
 		container.add(new Label("proName2", model));
@@ -68,13 +81,14 @@ public class ModalPanel extends Panel{
 				}
 			}
 		}
-		ArrayList<Games> games = (ArrayList<Games>) proGamesDao.listGames(player.getSummonerId());
+		final ArrayList<Games> games = (ArrayList<Games>) proGamesDao.listGames(player.getSummonerId());
 
 		if(games.isEmpty()){
 			games.add(createEmptyGame());
 		}
-		
-		ListView<Games> gamesList = new ListView<Games>("gamesList", games) {
+		final WebMarkupContainer listContainer = new WebMarkupContainer("listContainer");
+		listContainer.setOutputMarkupId(true);
+		final ListView<Games> gamesList = new ListView<Games>("gamesList", games) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -86,7 +100,6 @@ public class ModalPanel extends Panel{
 				Label vsWon, champName, enemyChampName, goldSpent, vsChamp;
 				Button exportButton = new Button("exportButton");
 				item.add(exportButton);
-				//exportButton.add(newOnClickBehavior(game));
 				item.add(champImage = new StaticImage("champImage", new Model<String>(game.getChampImage())));
 				item.add(enemyChampImage = new StaticImage("enemyChampImage", new Model<String>(game.getEnemyChampImage())));
 				item.add(vsChamp = new Label("vsChamp", Model.of("vs")));
@@ -109,8 +122,8 @@ public class ModalPanel extends Panel{
 				item.add(item6 = new StaticImage("item6", new Model<String>(game.getItem6())));
 				item6.setOutputMarkupId(true);
 				item.add(goldSpentIcon = new StaticImage("goldSpentIcon", new Model<String>("images/gold.png")));
+				AttributeAppender hiddenMod = new AttributeAppender("style", "display:none;");
 				if(game.getGameId() == 0l){
-					AttributeAppender hiddenMod = new AttributeAppender("style", "display:none;");
 					champImage.add(hiddenMod);
 					champName.setDefaultModel(Model.of("Riot API Rate Limit Exceeded"));
 					enemyChampImage.add(hiddenMod);
@@ -127,6 +140,10 @@ public class ModalPanel extends Panel{
 					goldSpent.add(hiddenMod);
 					goldSpentIcon.add(hiddenMod);
 					exportButton.add(hiddenMod);
+				}
+				if(game.isHidden()){
+					item.add(hiddenMod);
+					game.setHidden(false);
 				}
 
 				item.add(new AjaxEventBehavior("click"){
@@ -175,10 +192,53 @@ public class ModalPanel extends Panel{
 				});
 			}
 		};
-		container.add(gamesList);
+		
+		container.setOutputMarkupId(true);
+		gamesList.setOutputMarkupId(true);
+		
+		Form searchForm = new Form<Void>("searchForm");
+		searchForm.add(searchField = new TextField<String>("searchField", Model.of("")));
+		searchForm.add(new AjaxButton("searchButton", searchForm){
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				for(Games game : games){
+					if(searchField.getModelObject() == null || ((String)searchField.getModelObject()).isEmpty()){
+						game.setHidden(false);
+						continue;
+					}
+					if(!game.getChampName().toLowerCase().contains(((String)searchField.getModelObject()).toLowerCase())){
+						game.setHidden(true);
+					}
+				}
+				target.add(listContainer);
+			}
+			
+		});
+		searchField.add(new OnChangeAjaxBehavior() {
+			
+			@Override
+			protected void onUpdate(AjaxRequestTarget target) {
+				for(Games game : games){
+					if(searchField.getModelObject() == null || ((String)searchField.getModelObject()).isEmpty()){
+						game.setHidden(false);
+						continue;
+					}
+					if(!game.getChampName().toLowerCase().contains(((String)searchField.getModelObject()).toLowerCase())){
+						game.setHidden(true);
+					}
+				}
+				target.add(listContainer);
+			}
+		});
+		
+		container.add(searchForm);
+		listContainer.add(gamesList);
+		container.add(listContainer);
 		add(container);
 	}
-
+	
 	public static Games createEmptyGame() {
 		Games game = new Games();
 		game.setGameId(0l);
