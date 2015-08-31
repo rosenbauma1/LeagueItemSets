@@ -39,16 +39,12 @@ public class GsonFileBuilder {
 
 			for (int j = 0; j < frames.get(i).getItems().size(); j++) {
 				JsonObject itemObject = new JsonObject();
-				System.out.println(frames.get(i).getItems().get(j));
 				String itemId = frames.get(i).getItems().get(j).toString();
 				itemObject.addProperty("id", itemId);
 				itemObject.addProperty("count", 1);
 				frameArrayBuilder.add(itemObject);
-				System.out.println("item object" + itemObject.toString());
-				System.out.println("frame array" + frameArrayBuilder.toString());
 			}
 			oneFrame.add("items", frameArrayBuilder);
-			System.out.println("One Frame " + oneFrame.toString());
 			framesArray.add(oneFrame);
 		}
 		

@@ -13,7 +13,7 @@
 		<property name="url" value="jdbc:mysql://localhost:3306/league" />
 		<property name="username" value="root" />
 		<property name="password" value="password" />
-	</bean>
+	</bean> 
 
 	<!-- Definition for Dao JDBC bean -->
 	<bean id="proPlayersDaoJdbc" class="com.riot.itemsets.dao.ProPlayersDaoJdbc">

@@ -100,9 +100,9 @@ public class PlayerPanel extends Panel{
 					protected void onEvent(AjaxRequestTarget target) {
 						try {
 							region = item.getModelObject().getRegion();
+							System.out.println(item.getModelObject().getProName());
 							updateGamesPlayed(item.getModelObject().getSummonerId());
 						} catch (RiotApiException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}

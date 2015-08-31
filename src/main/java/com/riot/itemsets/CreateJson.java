@@ -11,6 +11,7 @@ import dto.Match.Event;
 import dto.Match.Frame;
 import dto.Match.MatchDetail;
 import dto.Match.ParticipantIdentity;
+import dto.Static.Block;
 import riotapi.RiotApi;
 import riotapi.RiotApiException;
 
@@ -40,7 +41,7 @@ public class CreateJson {
 		// counter++ subtract item id
 		// grabs starting items from frame 1 & 2
 
-		ArrayList<BlockForItems> allEvents = new ArrayList<BlockForItems>();
+		ArrayList<BlockForItems> allFrames = new ArrayList<BlockForItems>();
 		
 		for (int i = 1; i < frameList.size(); i++) {
 			ArrayList<Integer> items = new ArrayList<Integer>();
@@ -51,19 +52,30 @@ public class CreateJson {
 					if (event.getEventType().equals("ITEM_PURCHASED")) {
 						items.add((event.getItemId() == 2010 ? 2003 : event.getItemId()));
 						block.setItems(items);
-					} else if (event.getEventType().equals("ITEM_UNDO")) {
-						items.remove(items.lastIndexOf((Integer) (event.getItemId() == 2010 ? 2003 : event.getItemId())));
-						block.setItems(items);
+					} 
+					if (event.getEventType().equals("ITEM_UNDO")) {
+						if(items.size() > 0){
+							items.remove(items.lastIndexOf((Integer) (event.getItemId() == 2010 ? 2003 : event.getItemId())));
+							block.setItems(items);
+						} else {
+							block = allFrames.get(allFrames.size()-1);
+							items = block.getItems();
+							items.remove(items.lastIndexOf((Integer) (event.getItemId() == 2010 ? 2003 : event.getItemId())));
+							block.setItems(items);
+							allFrames.remove(allFrames.size()-1);
+							allFrames.add(block);
+							block = new BlockForItems(items = new ArrayList<Integer>());
+						}
 					}
 				}
 			}
 			if(!(block.getItems().isEmpty())){
 				block.setTimestamp("~" + i + ":00");
-				allEvents.add(block);
+				allFrames.add(block);
 			}
 		}
 
-		 return GsonFileBuilder.gsonToJsonBuilder(allEvents, title);
+		 return GsonFileBuilder.gsonToJsonBuilder(allFrames, title);
 		
 	}
 }
